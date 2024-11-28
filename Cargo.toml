@@ -1,0 +1,30 @@
+[package]
+name = "vanity-pgp-miner"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+sequoia-openpgp = { version = "1.21.2", default-features = false, features = [
+  "crypto-nettle",
+  "compression",
+] }
+rayon = "1.8"
+indicatif = "0.17"
+lazy_static = "1.4"
+parking_lot = { version = "0.12", features = ["nightly"] }
+mimalloc = { version = "0.1", default-features = false }
+jemallocator = "0.5"
+rustc-hash = "2.0.0"
+dashmap = "6.1.0"
+
+[target.'cfg(not(target_env = "msvc"))'.dependencies]
+jemallocator = "0.5"
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = true
+debug = false
+incremental = false
